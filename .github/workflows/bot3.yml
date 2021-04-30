@@ -83,7 +83,7 @@ jobs:
               cd ../; mv Bot3/build/libs/*.jar BoboBot.jar
               rm -rf Bot3
               sudo chmod -R +x ErfanGSIs; sudo chmod -R 0777 ErfanGSIs
-              java -jar BoboBot.jar
+              sudo java -jar BoboBot.jar
 
        - name: Re-run Bot3 workflow
          continue-on-error: true
