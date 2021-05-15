@@ -44,6 +44,7 @@ jobs:
               echo "bot-master=1072790346" >> configs.prop
               echo "privateChat=-1001374650142" >> configs.prop
               echo "requestChat=-1001383418886" >> configs.prop
+              echo "publicChannel=TrebleExperience" >> configs.prop
               echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
               echo "bot-sf-proj=trebleexperience" >> sf-creds.prop
               echo "bot-sf-user=velosh" >> sf-creds.prop
