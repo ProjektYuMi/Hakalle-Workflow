@@ -68,7 +68,7 @@ jobs:
 
        - name: Setup Erfan GSIs Tool
          continue-on-error: true
-         timeout-minutes: 1
+         timeout-minutes: 2
          run: |
               git clone --recurse-submodules --depth 1 https://${TOKEN}@github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs
               pip3 install wheel setuptools
