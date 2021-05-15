@@ -39,7 +39,7 @@ jobs:
               git clone https://github.com/TrebleExperience/Bot3 Bot3
               mkdir configs && cd configs
               touch configs.prop
-              echo "bot-token=${{ secrets.TOKEN }}" >> configs.prop
+              echo "bot-token=${{ secrets.GH }}" >> configs.prop
               echo "bot-username=veloshstagingbot" >> configs.prop
               echo "bot-master=1072790346" >> configs.prop
               echo "privateChat=-1001374650142" >> configs.prop
