@@ -4,6 +4,7 @@ on: push
 
 env:
   TZ: America/Recife
+  TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
   build:
@@ -68,7 +69,7 @@ jobs:
          continue-on-error: true
          timeout-minutes: 1
          run: |
-              git clone --recurse-submodules https://${{ secrets.EMAIL }}":${{ secrets.PASSWORD }}"@github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs --depth 1
+              git clone --depth 1 https://${TOKEN}@github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs
               pip3 install wheel setuptools
               pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
               sudo pip3 install --upgrade protobuf
