@@ -1,6 +1,8 @@
 name: Bot3
 
-on: push
+on:
+  push:
+    branches: [ stag ]
 
 env:
   TZ: America/Recife
@@ -36,7 +38,7 @@ jobs:
        - name: Setup Bobot Environment
          continue-on-error: true
          run: |
-              git clone https://github.com/TrebleExperience/Bot3 Bot3 -b staging
+              git clone https://github.com/TrebleExperience/Bot3 Bot3
               mkdir configs && cd configs
               touch configs.prop
               echo "bot-token=${{ secrets.GH }}" >> configs.prop
