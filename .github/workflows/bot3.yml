@@ -96,8 +96,6 @@ jobs:
           wget 'https://gist.githubusercontent.com/Velosh/6ad1a93fa8d3d78116b17fd34068da2b/raw/721b834ab23095dd2ee795bee2f2d888616378dd/0001-Bot-Use-.-as-default-prefix.patch' -O '0001-Bot-Use-.-as-default-prefix.patch'
           git am 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
           rm -rf 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
-          git am 0001-Bot-Use-.-as-default-prefix.patch
-          rm -rf 0001-Bot-Use-.-as-default-prefix.patch
           ./gradlew shadowJar
           cd ../; mv Bot/build/libs/*.jar BoboBot.jar
           rm -rf Bot
