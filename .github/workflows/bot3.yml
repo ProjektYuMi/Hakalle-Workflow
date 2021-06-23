@@ -71,7 +71,7 @@ jobs:
         continue-on-error: true
         timeout-minutes: 2
         run: |
-          git clone --recurse-submodules --depth 1 https://${TOKEN}@github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs
+          git clone --recurse-submodules --depth 1 https://${TOKEN}@github.com/TrebleExperience/ErfanGSIs-TrebleExp.git ErfanGSIs
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
