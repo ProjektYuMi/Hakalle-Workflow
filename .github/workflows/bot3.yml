@@ -78,7 +78,7 @@ jobs:
 
       - name: Setup, Build & Run Java 16/Bot3 source
         continue-on-error: true
-        timeout-minutes: 350
+        timeout-minutes: 315
         run: |
           export ABC="$(pwd)"
           sudo mkdir -p /usr/java/oracle; cd /usr/java/oracle
