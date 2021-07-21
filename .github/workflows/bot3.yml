@@ -33,6 +33,8 @@ jobs:
           git config --global user.name "Velosh"
           git config --global user.email "daffetyxd@gmail.com"
           git config --global pull.rebase false
+          git config --global credential.helper store
+          echo "https://Velosh:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
 
       - name: Setup Bobot Environment
         continue-on-error: true
@@ -71,7 +73,9 @@ jobs:
         continue-on-error: true
         timeout-minutes: 2
         run: |
-          git clone --recurse-submodules --depth 1 https://${TOKEN}@github.com/TrebleExperience/ErfanGSIs-TrebleExp.git ErfanGSIs
+          git clone --recurse-submodules --depth 1 https://github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs
+          rm -rf ErfanGSIs/prebuilt/vendor_vndk/
+          git clone https://github.com/TrebleExperience/vendor_vndk --depth 1 ErfanGSIs/prebuilt/vendor_vndk
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
@@ -107,12 +111,4 @@ jobs:
         run: |
           cd tmp/Bobot
           git commit --allow-empty -s -m "[LOOP] Re-run Bot3 workflow"
-          expect -c "
-          spawn git push -f
-          expect \"Username\"
-          send \"Velosh\r\"
-          expect \"Password\"
-          send \"${{ secrets.PASSWORD }}\r\"
-          expect \"master -> master\"
-          set timeout -10
-          interact"
+          git push -f
