@@ -73,9 +73,7 @@ jobs:
         continue-on-error: true
         timeout-minutes: 2
         run: |
-          git clone --recurse-submodules --depth 1 https://github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs
-          rm -rf ErfanGSIs/prebuilt/vendor_vndk/
-          git clone https://github.com/TrebleExperience/vendor_vndk --depth 1 ErfanGSIs/prebuilt/vendor_vndk
+          git clone --recurse-submodules https://github.com/TrebleExperience/ErfanGSIs-TrebleExperience.git ErfanGSIs -b velan/stable
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
