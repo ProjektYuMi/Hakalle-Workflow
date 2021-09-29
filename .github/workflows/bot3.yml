@@ -30,11 +30,11 @@ jobs:
 
       - name: Setup git Environment
         run: |
-          git config --global user.name "Velosh"
-          git config --global user.email "daffetyxd@gmail.com"
+          git config --global user.name "Daffety"
+          git config --global user.email ${{ secrets.PVT_EM }}
           git config --global pull.rebase false
           git config --global credential.helper store
-          echo "https://Velosh:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
+          echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
 
       - name: Setup Bobot Environment
         continue-on-error: true
@@ -108,5 +108,5 @@ jobs:
         timeout-minutes: 5
         run: |
           cd tmp/Bobot
-          git commit --allow-empty -s -m "[LOOP] Re-run Bot3 workflow"
+          git commit --allow-empty -m "[LOOP] Re-run Bot3 workflow"
           git push -f
