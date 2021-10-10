@@ -54,7 +54,7 @@ jobs:
           echo "bot-announcement-id=-1001489409825" >> sf-creds.prop
           echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
           echo "bot-send-announcement=true" >> sf-creds.prop
-          echo '["1195724888","1484670029","1628025516","1469015383","1263663104"]' >> allowed2port.json
+          echo '["918317361","1828939835","1263663104","739474399","932456186","576596376"]' >> allowed2port.json
 
       - name: Clone workflow
         continue-on-error: true
