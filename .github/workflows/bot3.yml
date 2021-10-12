@@ -101,7 +101,7 @@ jobs:
           ./gradlew shadowJar
           cd ../; mv Bot/build/libs/*.jar BoboBot.jar
           rm -rf Bot
-          sudo /usr/java/oracle/jdk-16.0.1/bin/java -jar BoboBot.jar
+          sudo /usr/java/oracle/jdk-17/bin/java -jar BoboBot.jar
 
       - name: Re-run Bot3 workflow
         continue-on-error: true
