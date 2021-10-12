@@ -46,7 +46,7 @@ jobs:
           echo "bot-username=veloshstagingbot" >> configs.prop
           echo "bot-master=1072790346" >> configs.prop
           echo "privateChat=-1001374650142" >> configs.prop
-          echo "requestChat=-1001383418886" >> configs.prop
+          echo "requestChat=-1001383418886,-1001649321386" >> configs.prop
           echo "publicChannel=TrebleExperience" >> configs.prop
           echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
           echo "bot-sf-proj=trebleexperience" >> sf-creds.prop
@@ -84,17 +84,17 @@ jobs:
         run: |
           export ABC="$(pwd)"
           sudo mkdir -p /usr/java/oracle; cd /usr/java/oracle
-          sudo wget 'https://github.com/VeloshGSIs/Bot3-Workflow/releases/download/J16/jdk-16.0.1_linux-x64_bin.tar.gz' -O linux.tar.gz >> /dev/null 2> /dev/null
+          sudo wget 'https://download.oracle.com/java/17/archive/jdk-17_linux-x64_bin.tar.gz' -O linux.tar.gz >> /dev/null 2> /dev/null
           sudo tar -xzvf linux.tar.gz
-          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/java/oracle/jdk-16.0.1/bin/java" 1
-          sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/java/oracle/jdk-16.0.1/bin/javac" 1
-          export JAVA_HOME=/usr/java/oracle/jdk-16.0.1
+          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/java/oracle/jdk-17/bin/java" 1
+          sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/java/oracle/jdk-17/bin/javac" 1
+          export JAVA_HOME=/usr/java/oracle/jdk-17
           export PATH=$PATH:$JAVA_HOME/bin
           sudo dpkg --purge --force-depends ca-certificates-java
           sudo apt-get install ca-certificates-java -y
           cd ${ABC}
           git clone https://github.com/TrebleExperience/Bot3 Bot; cd Bot
-          wget 'https://gist.githubusercontent.com/Velosh/95c9844c8a259fc99ec1f09c7c432781/raw/1f5ee87215c4b144bdc4674032e87d68df7fbd96/0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch' -O 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
+          wget 'https://gist.githubusercontent.com/Velosh/cd1fd2386f2ead9d4f4496ee3bca7665/raw/65ad903450b90b7f31f8400fb8fc66732959098a/a' -O 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
           wget 'https://gist.githubusercontent.com/Velosh/6ad1a93fa8d3d78116b17fd34068da2b/raw/721b834ab23095dd2ee795bee2f2d888616378dd/0001-Bot-Use-.-as-default-prefix.patch' -O '0001-Bot-Use-.-as-default-prefix.patch'
           git am 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
           rm -rf 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
