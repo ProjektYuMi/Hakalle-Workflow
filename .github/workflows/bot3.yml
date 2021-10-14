@@ -90,7 +90,7 @@ jobs:
           echo "bot-announcement-id=-1001489409825" >> sf-creds.prop
           echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
           echo "bot-send-announcement=true" >> sf-creds.prop
-          echo '["918317361","1828939835","1263663104","739474399","932456186","576596376"]' >> allowed2port.json
+          echo '["918317361","1828939835","1263663104","739474399","932456186","576596376","2052221966"]' >> allowed2port.json
           
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
@@ -111,7 +111,7 @@ jobs:
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         continue-on-error: true
         timeout-minutes: 315
-        run: cd Bot3/build/libs && ./BoboBot-1.7.0-all
+        run: cd Bot3/build/libs && sudo ./BoboBot-1.7.0-all
 
       - name: Re-run Bot3 workflow
         continue-on-error: true
