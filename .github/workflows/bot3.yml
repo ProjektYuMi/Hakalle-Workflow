@@ -35,10 +35,46 @@ jobs:
           git config --global pull.rebase false
           git config --global credential.helper store
           echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
+          sudo echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
 
-      - name: Setup Bobot Environment
+      - name: Clone workflow
         continue-on-error: true
         run: |
+          mkdir tmp && cd tmp
+          git clone https://github.com/VeloshGSIs/Bot3-Workflow Bobot
+
+      - name: Install tools/packages
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          sudo -E apt-get -qq update
+          sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev rsync flex bison ccache expect aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller device-tree-compiler liblzma-dev brotli liblz4-tool axel gawk aria2 detox cpio rename build-essential simg2img aria2 python3-pip tree
+          
+      - name: Try to drop prebuilt OpenJDKs
+        run: |
+          rm -rf /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+          sudo apt-get purge --purge adoptopenjdk* msopenjdk* openjdk-11* openjdk-13* openjdk-16* openjdk-17* openjdk-8* openjdk* -y
+
+      - name: Try to download GraalVM's JDK 16
+        run: |
+          cd /usr; sudo mkdir -p oracle/java/ && cd oracle/java/
+          sudo wget 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.2.0/graalvm-ce-java16-linux-amd64-21.2.0.tar.gz' -O graalvm-jdk16.tar.gz >> /dev/null 2>&1
+          sudo tar -xzvf graalvm-jdk16.tar.gz >> /dev/null 2>&1 && sudo rm -f graalvm-jdk16.tar.gz
+          export JAVA_HOME=/usr/oracle/java/graalvm-ce-java16-21.2.0
+          export PATH=$PATH:$JAVA_HOME/bin
+      
+      - name: Set GraalVM (binaries) as default
+        run: |
+          sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/javac" 1
+          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/java" 1
+          sudo update-alternatives --install "/usr/bin/gu" "gu" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/gu" 1
+      
+      - name: Clone, Compile & Setup Bot³+t
+        env:
+          JAVA_HOME: /usr/oracle/java/graalvm-ce-java16-21.2.0
+        run: |
+          git clone https://github.com/TrebleExperience/Bot3
+          cd Bot3 && ./gradlew shadowJar; cd build/libs
           mkdir configs && cd configs
           touch configs.prop
           touch allowed2port.json
@@ -55,53 +91,27 @@ jobs:
           echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
           echo "bot-send-announcement=true" >> sf-creds.prop
           echo '["918317361","1828939835","1263663104","739474399","932456186","576596376"]' >> allowed2port.json
-
-      - name: Clone workflow
-        continue-on-error: true
+          
+      - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
-          mkdir tmp && cd tmp
-          git clone https://github.com/VeloshGSIs/Bot3-Workflow Bobot
+          sudo gu install native-image
+          sudo update-alternatives --install "/usr/bin/native-image" "native-image" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/native-image" 1
+          cd Bot3/build/libs && native-image -jar *.jar
 
-      - name: Install tools/packages
+      - name: Setup our custom private ErfanGSIs
         continue-on-error: true
-        timeout-minutes: 5
+        timeout-minutes: 3
         run: |
-          sudo -E apt-get -qq update
-          sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev rsync flex bison ccache expect aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller device-tree-compiler liblzma-dev brotli liblz4-tool axel gawk aria2 detox cpio rename build-essential simg2img aria2 python3-pip tree
-
-      - name: Setup Erfan GSIs Tool
-        continue-on-error: true
-        timeout-minutes: 2
-        run: |
-          git clone --recurse-submodules https://github.com/TrebleExperience/ErfanGSIs-TrebleExp-Old.git ErfanGSIs -b velan/stable
+          cd build/libs
+          git clone --recurse-submodules https://github.com/TrebleExperience/EXP-TrebleExp.git ErfanGSIs -b velan/stable
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
 
-      - name: Setup, Build & Run Java 16/Bot3 source
+      - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         continue-on-error: true
         timeout-minutes: 315
-        run: |
-          export ABC="$(pwd)"
-          sudo mkdir -p /usr/java/oracle; cd /usr/java/oracle
-          sudo wget 'https://download.oracle.com/java/17/archive/jdk-17_linux-x64_bin.tar.gz' -O linux.tar.gz >> /dev/null 2> /dev/null
-          sudo tar -xzvf linux.tar.gz
-          sudo update-alternatives --install "/usr/bin/java" "java" "/usr/java/oracle/jdk-17/bin/java" 1
-          sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/java/oracle/jdk-17/bin/javac" 1
-          export JAVA_HOME=/usr/java/oracle/jdk-17
-          export PATH=$PATH:$JAVA_HOME/bin
-          sudo dpkg --purge --force-depends ca-certificates-java
-          sudo apt-get install ca-certificates-java -y
-          cd ${ABC}
-          git clone https://github.com/TrebleExperience/Bot3 Bot; cd Bot
-          wget 'https://gist.githubusercontent.com/Velosh/cd1fd2386f2ead9d4f4496ee3bca7665/raw/65ad903450b90b7f31f8400fb8fc66732959098a/a' -O 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
-          wget 'https://gist.githubusercontent.com/Velosh/6ad1a93fa8d3d78116b17fd34068da2b/raw/721b834ab23095dd2ee795bee2f2d888616378dd/0001-Bot-Use-.-as-default-prefix.patch' -O '0001-Bot-Use-.-as-default-prefix.patch'
-          git am 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
-          rm -rf 0001-Gradle-Patch-to-supports-lazy-method-for-Java-16-Vel.patch
-          ./gradlew shadowJar
-          cd ../; mv Bot/build/libs/*.jar BoboBot.jar
-          rm -rf Bot
-          sudo /usr/java/oracle/jdk-17/bin/java -jar BoboBot.jar
+        run: cd Bot3/build/libs && ./BoboBot-1.7.0-all
 
       - name: Re-run Bot3 workflow
         continue-on-error: true
