@@ -108,7 +108,7 @@ jobs:
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
 
-      - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
+      - name: Run the Bot³+t
         continue-on-error: true
         timeout-minutes: 315
         run: cd Bot3/build/libs && sudo ./BoboBot-1.7.0-all
@@ -118,5 +118,5 @@ jobs:
         timeout-minutes: 5
         run: |
           cd tmp/Bobot
-          git commit --allow-empty -m "[LOOP] Re-run Bot3 workflow"
+          git commit --allow-empty -m "[LOOP] Re-run Bot³+t workflow"
           git push -f
