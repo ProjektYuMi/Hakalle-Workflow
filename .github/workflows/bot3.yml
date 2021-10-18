@@ -100,7 +100,7 @@ jobs:
 
       - name: Setup our custom private ErfanGSIs
         continue-on-error: true
-        timeout-minutes: 3
+        timeout-minutes: 6
         run: |
           cd Bot3/build/libs
           git clone --recurse-submodules https://github.com/TrebleExperience/EXP-TrebleExp.git ErfanGSIs -b velan/stable
