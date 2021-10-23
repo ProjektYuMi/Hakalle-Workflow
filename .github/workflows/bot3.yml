@@ -72,7 +72,7 @@ jobs:
       - name: Clone, Compile & Setup Bot³+t
         run: |
           git clone https://github.com/TrebleExperience/Bot3
-          cd Bot3
+          cd Bot3 && ./gradlew shadowJar; cd build/libs
           mkdir configs && cd configs
           touch configs.prop
           touch allowed2port.json
