@@ -75,7 +75,7 @@ jobs:
         run: |
           git clone https://github.com/TrebleExperience/Bot3
           cd Bot3
-          sed -i "s/\$JAVA_HOME/\/usr\/java\/oracle\/graalvm-ce-java17-21.3.0/g" gradlew && ./gradlew shadowJar; cd build/libs
+          sed -i "s/\$JAVA_HOME/\/usr\/oracle\/java\/graalvm-ce-java17-21.3.0/g" gradlew && ./gradlew shadowJar; cd build/libs
           mkdir configs && cd configs
           touch configs.prop
           touch allowed2port.json
