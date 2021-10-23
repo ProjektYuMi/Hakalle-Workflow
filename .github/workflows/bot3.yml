@@ -50,7 +50,7 @@ jobs:
           sudo -E apt-get -qq update
           sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev rsync flex bison ccache expect aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller device-tree-compiler liblzma-dev brotli liblz4-tool axel gawk aria2 detox cpio rename build-essential simg2img aria2 python3-pip tree
           
-      - name: Try to drop prebuilt all OpenJDKs
+      - name: Try to drop prebuilt OpenJDKs
         run: |
           rm -rf /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
           sudo apt-get purge --purge openjdk* -y
@@ -70,6 +70,8 @@ jobs:
           sudo update-alternatives --install "/usr/bin/gu" "gu" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/gu" 1
       
       - name: Clone, Compile & Setup Bot³+t
+        env:
+          JAVA_HOME: /usr/oracle/java/graalvm-ce-java16-21.2.0
         run: |
           git clone https://github.com/TrebleExperience/Bot3
           cd Bot3 && ./gradlew shadowJar; cd build/libs
