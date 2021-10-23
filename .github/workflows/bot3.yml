@@ -93,7 +93,7 @@ jobs:
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
           sudo gu install native-image
-          sudo update-alternatives --install "/usr/bin/native-image" "native-image" "/usr/oracle/java/graalvm-ce-java17-21.3.0/bin/native-image" 1
+          sudo update-alternatives --install "/usr/bin/native-image" "native-image" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/native-image" 1
           cd Bot3/build/libs && native-image -jar *.jar
 
       - name: Setup our custom private ErfanGSIs
