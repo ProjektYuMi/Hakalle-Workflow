@@ -108,7 +108,6 @@ jobs:
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
-          cd ErfanGSIs/tools/ROM_resigner && git reset --hard HEAD~2
 
       - name: Run the Bot³+t
         continue-on-error: true
