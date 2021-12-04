@@ -41,7 +41,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir tmp && cd tmp
-          git clone https://github.com/VeloshGSIs/Bot3-Workflow Bobot
+          git clone https://github.com/dp0148475/Bot3-Workflow Bobot
 
       - name: Install tools/packages
         continue-on-error: true
