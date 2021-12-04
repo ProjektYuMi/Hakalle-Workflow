@@ -85,9 +85,9 @@ jobs:
           echo "requestChat=-1001649321386" >> configs.prop
           echo "publicChannel=dt_tech" >> configs.prop
           echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
-          echo "bot-sf-proj=trebleexperience" >> sf-creds.prop
-          echo "bot-sf-user=velosh" >> sf-creds.prop
-          echo "bot-announcement-id=-1001489409825" >> sf-creds.prop
+          echo "bot-sf-proj=Dipesh-Tech" >> sf-creds.prop
+          echo "bot-sf-user=dp0148475" >> sf-creds.prop
+          echo "bot-announcement-id=-1001475427846" >> sf-creds.prop
           echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
           echo "bot-send-announcement=true" >> sf-creds.prop
           #echo '["918317361","1828939835","1263663104","739474399","932456186","576596376","2052221966"]' >> allowed2port.json
