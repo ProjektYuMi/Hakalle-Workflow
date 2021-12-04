@@ -73,17 +73,17 @@ jobs:
         env:
           JAVA_HOME: /usr/oracle/java/graalvm-ce-java16-21.2.0
         run: |
-          git clone https://github.com/TrebleExperience/Bot3
+          git clone https://github.com/dp0148475/Bot3
           cd Bot3 && ./gradlew shadowJar; cd build/libs
           mkdir configs && cd configs
           touch configs.prop
           touch allowed2port.json
           echo "bot-token=${{ secrets.GH }}" >> configs.prop
-          echo "bot-username=veloshstagingbot" >> configs.prop
-          echo "bot-master=1072790346" >> configs.prop
-          echo "privateChat=-1001374650142" >> configs.prop
-          echo "requestChat=-1001383418886,-1001649321386" >> configs.prop
-          echo "publicChannel=TrebleExperience" >> configs.prop
+          echo "bot-username=dipeshgsi_bot" >> configs.prop
+          echo "bot-master=1823032615" >> configs.prop
+          echo "privateChat=-1001475427846 Loop" >> configs.prop
+          echo "requestChat=-1001649321386" >> configs.prop
+          echo "publicChannel=dt_tech" >> configs.prop
           echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
           echo "bot-sf-proj=trebleexperience" >> sf-creds.prop
           echo "bot-sf-user=velosh" >> sf-creds.prop
@@ -104,7 +104,7 @@ jobs:
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
           cd Bot3/build/libs
-          git clone --recurse-submodules https://github.com/TrebleExperience/EXP-TrebleExp.git ErfanGSIs -b velan/stable
+          git clone --recurse-submodules https://github.com/dp0148475/EXP-TrebleExp.git ErfanGSIs -b velan/stable
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
