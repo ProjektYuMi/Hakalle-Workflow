@@ -78,19 +78,19 @@ jobs:
           mkdir configs && cd configs
           touch configs.prop
           touch allowed2port.json
-          echo "bot-token=${{ secrets.GH }}" >> configs.prop
-          echo "bot-username=dipeshgsi_bot" >> configs.prop
-          echo "bot-master=1823032615" >> configs.prop
-          echo "privateChat=-1001475427846 Loop" >> configs.prop
-          echo "requestChat=-1001649321386" >> configs.prop
-          echo "publicChannel=dt_tech" >> configs.prop
-          echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
-          echo "bot-sf-proj=Dipesh-Tech" >> sf-creds.prop
-          echo "bot-sf-user=dp0148475" >> sf-creds.prop
-          echo "bot-announcement-id=-1001475427846" >> sf-creds.prop
-          echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
-          echo "bot-send-announcement=true" >> sf-creds.prop
-          echo '["Dipesh-Tech","1263663104","739474399","932456186","576596376","2052221966"]' >> allowed2port.json
+          echo "bot-token=${{ secrets.BOTKEY }}" >> configs.prop
+              echo "bot-username=${{ secrets.BOTUN }}" >> configs.prop
+              echo "bot-master=${{ secrets.USERKEY }}" >> configs.prop
+              echo "privateChat=-1001475427846" >> configs.prop
+              echo "requestChat=-1001475427846" >> configs.prop
+              echo "publicChannel=dt_tech" >> configs.prop
+              echo "bot-sf-pass=${{ secrets.SFPASS }}" >> sf-creds.prop
+              echo "bot-sf-proj=${{ secrets.PROJECT }}" >> sf-creds.prop
+              echo "bot-sf-user=${{ secrets.SFUSER }}" >> sf-creds.prop
+              echo "bot-announcement-id=-1001475427846" >> sf-creds.prop
+              echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
+              echo "bot-send-announcement=true" >> sf-creds.prop
+              echo '["1396522419","1635533429","1057998166"]' >> allowed2port.json
           
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
