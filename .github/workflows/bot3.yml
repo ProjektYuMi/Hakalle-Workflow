@@ -90,7 +90,7 @@ jobs:
               echo "bot-announcement-id=-1001475427846" >> sf-creds.prop
               echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
               echo "bot-send-announcement=true" >> sf-creds.prop
-              echo '["1635533429","1057998166"]' >> allowed2port.json
+              echo '[]' >> allowed2port.json
           
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
