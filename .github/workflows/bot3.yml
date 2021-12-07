@@ -31,7 +31,7 @@ jobs:
       - name: Setup git Environment
         run: |
           git config --global user.name "dp0148475"
-          git config --global user.email ${{ secrets.PVT_EM }}
+          git config --global user.email ${{ secrets.GHUSER }}
           git config --global pull.rebase false
           git config --global credential.helper store
           echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
@@ -90,7 +90,7 @@ jobs:
               echo "bot-announcement-id=-1001475427846" >> sf-creds.prop
               echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
               echo "bot-send-announcement=true" >> sf-creds.prop
-              echo '["1396522419","1635533429","1057998166"]' >> allowed2port.json
+              echo '["1635533429","1057998166"]' >> allowed2port.json
           
       - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
         run: |
