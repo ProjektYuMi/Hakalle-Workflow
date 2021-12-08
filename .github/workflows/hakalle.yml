@@ -1,11 +1,10 @@
-name: Bot3
+name: Hakalle
 on:
   push:
     branches: [stag]
 
 env:
   TZ: America/Recife
-  TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
   build:
@@ -31,17 +30,16 @@ jobs:
       - name: Setup git Environment
         run: |
           git config --global user.name "Daffety"
-          git config --global user.email ${{ secrets.PVT_EM }}
+          git config --global user.email ${{ secrets.EMAIL }}
           git config --global pull.rebase false
           git config --global credential.helper store
-          #echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
-          #sudo echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
+          echo "https://Daffety:${{ secrets.DEV_TOKEN }}@github.com" > ~/.git-credentials
 
       - name: Clone workflow
         continue-on-error: true
         run: |
           mkdir tmp && cd tmp
-          git clone https://github.com/ProjektYuMi/Bot3-Workflow Bobot
+          git clone https://github.com/ProjektYuMi/Bot3-Workflow Haka
 
       - name: Install tools/packages
         continue-on-error: true
@@ -69,55 +67,46 @@ jobs:
           sudo update-alternatives --install "/usr/bin/java" "java" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/java" 1
           sudo update-alternatives --install "/usr/bin/gu" "gu" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/gu" 1
       
-      - name: Clone, Compile & Setup Bot³+t
+      - name: Clone, Compile & Setup Hakalle
         env:
           JAVA_HOME: /usr/oracle/java/graalvm-ce-java16-21.2.0
         run: |
-          git clone https://github.com/TrebleExperience/Bot3
-          cd Bot3 && ./gradlew shadowJar; cd build/libs
-          mkdir configs && cd configs
-          touch configs.prop
-          touch allowed2port.json
-          echo "bot-token=${{ secrets.GH }}" >> configs.prop
-          echo "bot-username=hakallebot" >> configs.prop
-          echo "bot-master=1072790346" >> configs.prop
-          echo "privateChat=-1001374650142" >> configs.prop
-          echo "requestChat=-1001383418886,-1001649321386" >> configs.prop
-          echo "publicChannel=TrebleExperience" >> configs.prop
-          echo "bot-sf-pass=${{ secrets.PASS_SF }}" >> sf-creds.prop
-          echo "bot-sf-proj=trebleexperience" >> sf-creds.prop
-          echo "bot-sf-user=velosh" >> sf-creds.prop
-          echo "bot-announcement-id=-1001489409825" >> sf-creds.prop
-          echo "bot-sf-host=frs.sourceforge.net" >> sf-creds.prop
-          echo "bot-send-announcement=true" >> sf-creds.prop
-          #echo '["918317361","1828939835","1263663104","739474399","932456186","576596376","2052221966"]' >> allowed2port.json
-          
-      - name: Install native-image & Rebuild Bot³+t prebuilt Jar as native code
-        run: |
-          sudo gu install native-image
-          sudo update-alternatives --install "/usr/bin/native-image" "native-image" "/usr/oracle/java/graalvm-ce-java16-21.2.0/bin/native-image" 1
-          cd Bot3/build/libs && native-image -jar *.jar
+          git clone https://github.com/ProjektYuMi/Hakalle -b haka/staging
+          cd Hakalle && ./gradlew shadowJar; cd app/build/libs
+          touch hakalle.yaml
+          echo "token: ${{ secrets.BOT_TOKEN }}" >> hakalle.yaml
+          echo "username: hakallebot" >> hakalle.yaml
+          echo "creatorId: 1072790346" >> hakalle.yaml
+          echo "privateChatId: -1001728966792" >> hakalle.yaml
+          echo "publicChatId: -1001657128376" >> hakalle.yaml
+          echo "channelId: -1001489409825" >> hakalle.yaml
 
       - name: Setup our custom private ErfanGSIs
         continue-on-error: true
         timeout-minutes: 6
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
-          cd Bot3/build/libs
-          git clone --recurse-submodules https://github.com/TrebleExperience/EXP-TrebleExp.git ErfanGSIs -b velan/stable
+          cd Hakalle/app/build/libs
+          git clone --recurse-submodules https://github.com/ProjektYuMi/yGSI-ErfanGSIs yGSI -b haka/staging
+          cd yGSI/tools/ROM_resigner
+          sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
+          git clone https://android.googlesource.com/platform/build --depth 1 -b master
+          mv build/target/product/security/* AOSP_security/
+          rm -rf build
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
 
-      - name: Run the Bot³+t
+      - name: Run the Hakalle
         continue-on-error: true
         timeout-minutes: 315
-        run: cd Bot3/build/libs && sudo ./BoboBot-1.7.0-all
+        run: cd Hakalle/app/build/libs && sudo /usr/oracle/java/graalvm-ce-java16-21.2.0/bin/java -jar app-0.1-all.jar
 
-      - name: Re-run Bot3 workflow
+      - name: Re-run Hakalle workflow
         continue-on-error: true
         timeout-minutes: 5
         run: |
-          cd tmp/Bobot
-          git commit --allow-empty -m "[LOOP] Re-run Bot³+t workflow"
+          cd tmp/Haka
+          git commit --allow-empty -m "[LOOP] Re-run Hakalle workflow"
           git push -f
+
