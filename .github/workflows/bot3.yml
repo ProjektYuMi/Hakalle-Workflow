@@ -34,14 +34,14 @@ jobs:
           git config --global user.email ${{ secrets.PVT_EM }}
           git config --global pull.rebase false
           git config --global credential.helper store
-          echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
-          sudo echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
+          #echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
+          #sudo echo "https://Daffety:${{ secrets.GH_TTH }}@github.com" > ~/.git-credentials
 
       - name: Clone workflow
         continue-on-error: true
         run: |
           mkdir tmp && cd tmp
-          git clone https://github.com/VeloshGSIs/Bot3-Workflow Bobot
+          git clone https://github.com/ProjektYuMi/Bot3-Workflow Bobot
 
       - name: Install tools/packages
         continue-on-error: true
@@ -79,7 +79,7 @@ jobs:
           touch configs.prop
           touch allowed2port.json
           echo "bot-token=${{ secrets.GH }}" >> configs.prop
-          echo "bot-username=veloshstagingbot" >> configs.prop
+          echo "bot-username=hakallebot" >> configs.prop
           echo "bot-master=1072790346" >> configs.prop
           echo "privateChat=-1001374650142" >> configs.prop
           echo "requestChat=-1001383418886,-1001649321386" >> configs.prop
