@@ -87,12 +87,8 @@ jobs:
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
           cd Hakalle/app/build/libs
-          git clone --recurse-submodules https://github.com/ProjektYuMi/yGSI-ErfanGSIs yGSI -b haka/staging
-          cd yGSI/tools/ROM_resigner
-          sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
-          git clone https://android.googlesource.com/platform/build --depth 1 -b master
-          mv build/target/product/security/* AOSP_security/
-          rm -rf build
+          git clone --recurse-submodules https://github.com/ProjektYuMi/yGSI-ErfanGSIs yGSI -b haka/stable
+          cd yGSI/tools/ROM_resigner && sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
@@ -109,4 +105,3 @@ jobs:
           cd tmp/Haka
           git commit --allow-empty -m "[LOOP] Re-run Hakalle workflow"
           git push -f
-
