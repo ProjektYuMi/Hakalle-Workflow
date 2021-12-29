@@ -46,7 +46,7 @@ jobs:
         timeout-minutes: 5
         run: |
           sudo -E apt-get -qq update
-          sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python gcc clang libssl-dev rsync flex bison ccache expect aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller device-tree-compiler liblzma-dev brotli liblz4-tool axel gawk aria2 detox cpio rename build-essential simg2img aria2 python3-pip tree
+          sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python libssl-dev flex bison aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller liblzma-dev brotli liblz4-tool axel gawk aria2 rename build-essential simg2img aria2 python3-pip tree
           
       - name: Try to drop prebuilt OpenJDKs
         run: |
@@ -77,11 +77,11 @@ jobs:
           echo "token: ${{ secrets.BOT_TOKEN }}" >> hakalle.yaml
           echo "username: hakallebot" >> hakalle.yaml
           echo "creatorId: 1072790346" >> hakalle.yaml
-          echo "privateChatId: -1001728966792" >> hakalle.yaml
-          echo "publicChatId: -1001657128376" >> hakalle.yaml
-          echo "channelId: -1001489409825" >> hakalle.yaml
+          echo "privateChatId: -1001639053539" >> hakalle.yaml
+          echo "publicChatId: -1001639053539" >> hakalle.yaml
+          echo "channelId: -1001639053539" >> hakalle.yaml
 
-      - name: Setup our custom private ErfanGSIs
+      - name: Setup our tool
         continue-on-error: true
         timeout-minutes: 6
         run: |
@@ -92,6 +92,7 @@ jobs:
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
+          echo 'e0c9035898dd52fc65c41454cec9c4d2' >> haka.gsf
 
       - name: Run the Hakalle
         continue-on-error: true
