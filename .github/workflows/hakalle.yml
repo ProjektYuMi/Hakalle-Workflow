@@ -91,8 +91,9 @@ jobs:
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
           cd Haka
-          git clone --recurse-submodules https://github.com/Erfanoabdi/ErfanGSIs
-          cd ErfanGSIs/tools/ROM_resigner && sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
+          https://github.com/ProjektYuMi/yGSI-ErfanGSIs --depth 1 ErfanGSIs
+          cd ErfanGSIs && mv mka.sh url2GSI.sh
+          cd tools/ROM_resigner && sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
           pip3 install wheel setuptools
           pip3 install backports.lzma docopt zstandard bsdiff4 protobuf pycrypto
           sudo pip3 install --upgrade protobuf
