@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
         run: |
           mkdir tmp && cd tmp
-          git clone https://github.com/Hakalle/Hakalle-Workflow Haka
+          git clone https://github.com/Hakalle/Hakalle-Workflow Hakalle
 
       - name: Install tools/packages
         continue-on-error: true
@@ -72,7 +72,7 @@ jobs:
           JAVA_HOME: /usr/oracle/java/graalvm-ce-java17-22.0.0.2
         run: |
           git clone https://github.com/Hakalle/Haka
-          cd Hakalle && ./gradlew shadowJar
+          cd Haka && ./gradlew shadowJar
           touch hakalle.yaml
           echo "token: ${{ secrets.BOT_TOKEN }}" >> hakalle.yaml
           echo "username: hakallebot" >> hakalle.yaml
@@ -90,7 +90,7 @@ jobs:
         timeout-minutes: 6
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
-          cd Hakalle
+          cd Haka
           git clone --recurse-submodules https://github.com/Erfanoabdi/ErfanGSIs
           cd ErfanGSIs/tools/ROM_resigner && sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
           pip3 install wheel setuptools
@@ -100,7 +100,7 @@ jobs:
       - name: Run the Hakalle
         continue-on-error: true
         timeout-minutes: 315
-        run: cd Hakalle && sudo /usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/java -jar hakalle/build/libs/*.jar
+        run: cd Haka && sudo /usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/java -jar hakalle/build/libs/*.jar
 
       - name: Re-run Hakalle workflow
         continue-on-error: true
