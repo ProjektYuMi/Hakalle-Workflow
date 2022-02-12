@@ -91,7 +91,7 @@ jobs:
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
           cd Haka
-          https://github.com/ProjektYuMi/yGSI-ErfanGSIs --depth 1 ErfanGSIs
+          git clone https://github.com/ProjektYuMi/yGSI-ErfanGSIs --depth 1 ErfanGSIs
           cd ErfanGSIs && mv mka.sh url2GSI.sh
           cd tools/ROM_resigner && sed -i "s|signjarcmd = \"java -jar|signjarcmd = \"/usr/lib/jvm/java-1.8.0-openjdk-amd64/bin/java -jar|g" resign.py
           pip3 install wheel setuptools
@@ -107,6 +107,6 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
         run: |
-          cd tmp/Haka
+          cd tmp/Hakalle
           git commit --allow-empty -m "[LOOP] Re-run Hakalle workflow"
           git push -f
