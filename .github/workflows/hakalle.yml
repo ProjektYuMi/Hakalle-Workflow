@@ -28,7 +28,7 @@ jobs:
       - name: Create swap (Avoid mk2fs issues)
         run: |
           sudo dd if=/dev/zero of=swap bs=4k count=1048576
-          chmod 0600 swap
+          sudo chmod 0600 swap
           sudo mkswap swap
           sudo swapon swap
 
