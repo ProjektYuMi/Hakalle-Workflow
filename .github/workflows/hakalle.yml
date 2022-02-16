@@ -1,8 +1,6 @@
 name: Hakalle
 
 on:
-  push:
-    branches: [stag]
   workflow_dispatch:
     schedule:
     - cron: "0 */6 * * *"
@@ -12,8 +10,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 525600
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkouts
@@ -42,7 +39,6 @@ jobs:
 
       - name: Install tools/packages
         continue-on-error: true
-        timeout-minutes: 5
         run: |
           sudo -E apt-get -qq update
           sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python libssl-dev flex bison aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller liblzma-dev brotli liblz4-tool axel gawk aria2 rename build-essential simg2img aria2 python3-pip tree
@@ -86,7 +82,6 @@ jobs:
 
       - name: Install OpenJDK 8 for ROM Resigning and setup our tool
         continue-on-error: true
-        timeout-minutes: 6
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
           cd Haka
