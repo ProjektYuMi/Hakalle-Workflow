@@ -1,18 +1,15 @@
 name: Hakalle
-
 on:
   push:
     branches: [stag]
-  workflow_dispatch:
-    schedule:
-    - cron: "0 */6 * * *"
 
 env:
   TZ: America/Recife
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    timeout-minutes: 525600
 
     steps:
       - name: Checkouts
@@ -39,18 +36,23 @@ jobs:
           git config --global credential.helper store
           echo "https://Hakalle:${{ secrets.DEV_TOKEN }}@github.com" > ~/.git-credentials
 
+      - name: Clone workflow
+        run: |
+          mkdir tmp && cd tmp
+          git clone https://github.com/Hakalle/Hakalle-Workflow Hakalle
+
       - name: Install tools/packages
         continue-on-error: true
         run: |
           sudo -E apt-get -qq update
           sudo -E apt-get -qq install bc build-essential zip curl libstdc++6 git wget python libssl-dev flex bison aria2 unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract file-roller liblzma-dev brotli liblz4-tool axel gawk aria2 rename build-essential simg2img aria2 python3-pip tree
           
-      - name: Java - Drop OpenJDK prebuilts
+      - name: Try to drop prebuilt OpenJDKs
         run: |
           rm -rf /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
           sudo apt-get purge --purge openjdk* -y
 
-      - name: Download GraalVM JDK 17
+      - name: Try to download GraalVM JDK 17
         run: |
           cd /usr; sudo mkdir -p oracle/java/ && cd oracle/java/
           sudo wget 'https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.0.0.2/graalvm-ce-java17-linux-amd64-22.0.0.2.tar.gz' -O graalvm-jdk17.tar.gz >> /dev/null 2>&1
@@ -58,13 +60,13 @@ jobs:
           export JAVA_HOME=/usr/oracle/java/graalvm-ce-java17-22.0.0.2
           export PATH=$PATH:$JAVA_HOME/bin
       
-      - name: Set GraalVM as default JDK/JRE
+      - name: Set GraalVM (binaries) as default
         run: |
           sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/javac" 1
           sudo update-alternatives --install "/usr/bin/java" "java" "/usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/java" 1
           sudo update-alternatives --install "/usr/bin/gu" "gu" "/usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/gu" 1
       
-      - name: Clone, compile & config Hakalle
+      - name: Clone, Compile & Setup Hakalle
         env:
           JAVA_HOME: /usr/oracle/java/graalvm-ce-java17-22.0.0.2
         run: |
@@ -82,7 +84,7 @@ jobs:
           echo "channelId: -1001639053539" >> hakalle.yaml
           echo "channel: 1639053539" >> hakalle.yaml
 
-      - name: Install OpenJDK 8 for ROM Resigning and setup our tool
+      - name: Setup our tool
         continue-on-error: true
         run: |
           sudo apt install openjdk-8-jdk -y >> /dev/null 2>&1
@@ -96,4 +98,13 @@ jobs:
           
       - name: Run the Hakalle
         continue-on-error: true
+        timeout-minutes: 315
         run: cd Haka && sudo /usr/oracle/java/graalvm-ce-java17-22.0.0.2/bin/java -jar hakalle/build/libs/*.jar
+
+      - name: Re-run Hakalle workflow
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          cd tmp/Hakalle
+          git commit --allow-empty -m "[LOOP] Re-run Hakalle workflow"
+          git push -f
